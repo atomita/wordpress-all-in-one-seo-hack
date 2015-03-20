@@ -117,12 +117,14 @@ class Opengraph extends \All_in_One_SEO_Pack_Opengraph
 				$description = $post->post_content;
 			if ( empty( $type ) ) $type = 'article';
 		}
-		else {
-			// hack!  not return!
-			if ( empty( $type ) ) $type = 'article';
+		else if (is_array( $this->options['aiosp_opengraph_types'] ) 
+		&& in_array( $current_post_type, $this->options['aiosp_opengraph_types'] ) ){
+			// hack!
+			if ( empty( $type ) ) $type = 'website';
 		}
+		else return;
 		
-		if ( $type == 'article' ) {
+		if ( $type == 'article' || $type == 'website') { // hack!
 			if ( !empty( $this->options['aiosp_opengraph_gen_tags'] ) ) {
 				if ( !empty( $this->options['aiosp_opengraph_gen_keywords'] ) ) {
 					$keywords = $aiosp->get_main_keywords();
