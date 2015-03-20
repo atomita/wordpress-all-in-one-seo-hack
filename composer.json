@@ -1,0 +1,16 @@
+{
+	"name": "atomita/wordpress-all-in-one-seo-hack",
+	"keywords": ["wordpress", "all in one seo pack"],
+	"license": "LGPLv3",
+	"authors": [
+	{
+		"name": "atomita"
+	}
+	],
+	"require": {
+	},
+	"autoload": {
+		"classmap": ["src/"],
+		"files": ["src/init.php"]
+	}
+}
