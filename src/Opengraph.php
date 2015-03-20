@@ -319,4 +319,11 @@ class Opengraph extends \All_in_One_SEO_Pack_Opengraph
 			}
 	}
 
+	function type_setup(){
+		if ( !empty( $this->options ) && !empty( $this->options['aiosp_opengraph_categories'] ) ){
+			$this->type = $this->options['aiosp_opengraph_categories'];
+		}
+		parent::type_setup();
+	}
+
 }
