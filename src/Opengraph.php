@@ -7,13 +7,15 @@ namespace atomita\wordpress\allInOneSeoHack;
  */
 class Opengraph extends \All_in_One_SEO_Pack_Opengraph
 {
-	function __construct(){
+	static public $searchEnabled = false;
+
+	public function __construct(){
 		parent::__construct();
 
 		add_filter('aiosp_opengraph_meta', array($this, 'valueFilter'), 10, 3);
 	}
 
-	function valueFilter($filtered_value, $t, $k){
+	public function valueFilter($filtered_value, $t, $k){
 		return apply_filters(
 			"aiosp_opengraph_meta_{$t}_{$k}",
 			apply_filters(
@@ -21,7 +23,7 @@ class Opengraph extends \All_in_One_SEO_Pack_Opengraph
 				$filtered_value, $t));
 	}
 
-	function add_meta( ) {
+	public function add_meta( ) {
 		global $post, $aiosp, $aioseop_options, $wp_query;
 		$metabox = $this->get_current_options( Array(), 'settings' );
 		$key = $this->options['aiosp_opengraph_key'];
@@ -117,8 +119,9 @@ class Opengraph extends \All_in_One_SEO_Pack_Opengraph
 				$description = $post->post_content;
 			if ( empty( $type ) ) $type = 'article';
 		}
-		else if (is_array( $this->options['aiosp_opengraph_types'] ) 
-		&& in_array( $current_post_type, $this->options['aiosp_opengraph_types'] ) ){
+		else if ((is_array( $this->options['aiosp_opengraph_types'] ) 
+		&& in_array( $current_post_type, $this->options['aiosp_opengraph_types'] ) )
+		|| (self::$searchEnabled && is_search())){
 			// hack!
 			if ( empty( $type ) ) $type = 'website';
 		}
@@ -319,7 +322,7 @@ class Opengraph extends \All_in_One_SEO_Pack_Opengraph
 			}
 	}
 
-	function type_setup(){
+	public function type_setup(){
 		if ( !empty( $this->options ) && !empty( $this->options['aiosp_opengraph_categories'] ) ){
 			$this->type = $this->options['aiosp_opengraph_categories'];
 		}
